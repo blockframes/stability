@@ -25,6 +25,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // TODO: promisify all these callbacks and go fully async
       return form.parse(req, async (err: any, fields: any, files: Files) => {
+        if (err) {
+          res.status(500)
+          res.end('failed')
+          console.error(err)
+          return
+        }
+
         const xmlFiles = flatten(
           await Promise.all(
             Object.entries(files).map(async ([fileName, file]) => {

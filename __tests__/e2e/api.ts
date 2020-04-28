@@ -3,7 +3,9 @@ import fs from 'fs'
 import { IncomingMessage } from 'http'
 import fetch from 'isomorphic-unfetch'
 
-const API_URL = 'http://localhost:3000/api'
+const API_HOST = 'localhost'
+const API_PORT = 3000
+const u = (path: string) => `http://${API_HOST}:${API_PORT}/api${path}`
 
 // const dbg = (f: any): any => {
 //     return (...args: any[]) => {
@@ -34,14 +36,14 @@ const consumeJSON = (x: IncomingMessage): any => {
 
 describe('status api', () => {
   it('returns 200', async () => {
-    const r = await fetch(`${API_URL}/status`)
+    const r = await fetch(u('/status'))
     expect(r.status).toEqual(200)
   })
 })
 
 describe('POST Results API', () => {
   it('returns 200 when the query is correctly formatted', async () => {
-    const r = await fetch(`${API_URL}/results`, {
+    const r = await fetch(u('/results'), {
       method: 'POST',
       headers: {}
     })
@@ -52,20 +54,23 @@ describe('POST Results API', () => {
     const formData = loadZip('./__tests__/e2e/fixtures/test-reports-1.zip')
 
     const r = await new Promise<IncomingMessage>((resolve, reject) => {
-      formData.submit(`${API_URL}/results`, (err, res) =>
-        err ? reject(err) : resolve(res)
+      formData.submit(
+        { host: API_HOST, port: API_PORT, path: '/api/results', headers: {} },
+        (err: Error | null, res) => (err ? reject(err) : resolve(res))
       )
     })
 
     expect(r.statusCode).toEqual(201)
     const json = await consumeJSON(r)
+
     expect(json['xmlFilesCount']).toEqual(16)
+    expect(json['buildID']).toEqual('SomeBuildID')
   })
 })
 
 describe('GET Results API', () => {
   it("returns 404 when the job doesn't exists", async () => {
-    const r = await fetch(`${API_URL}/results/some-unknown-job-id`, {
+    const r = await fetch(u('/results/some-unknown-job-id'), {
       method: 'GET',
       headers: {}
     })
