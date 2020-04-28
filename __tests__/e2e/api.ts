@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch'
 
 const API_HOST = 'localhost'
 const API_PORT = 3000
+const SECRET = 'helloworld'
 const u = (path: string) => `http://${API_HOST}:${API_PORT}/api${path}`
 
 // const dbg = (f: any): any => {
@@ -55,7 +56,12 @@ describe('POST Results API', () => {
 
     const r = await new Promise<IncomingMessage>((resolve, reject) => {
       formData.submit(
-        { host: API_HOST, port: API_PORT, path: '/api/results', headers: {} },
+        {
+          host: API_HOST,
+          port: API_PORT,
+          path: '/api/results',
+          headers: { 'X-Secret': SECRET }
+        },
         (err: Error | null, res) => (err ? reject(err) : resolve(res))
       )
     })
@@ -65,6 +71,24 @@ describe('POST Results API', () => {
 
     expect(json['xmlFilesCount']).toEqual(16)
     expect(json['buildID']).toEqual('SomeBuildID')
+  })
+
+  it('throws forbidden when no secrets are provided', async () => {
+    const formData = loadZip('./__tests__/e2e/fixtures/test-reports-1.zip')
+
+    const r = await new Promise<IncomingMessage>((resolve, reject) => {
+      formData.submit(
+        {
+          host: API_HOST,
+          port: API_PORT,
+          path: '/api/results',
+          headers: { 'X-Secret': SECRET }
+        },
+        (err: Error | null, res) => (err ? reject(err) : resolve(res))
+      )
+    })
+
+    expect(r.statusCode).toEqual(403)
   })
 })
 
