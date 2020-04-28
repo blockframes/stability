@@ -41,7 +41,7 @@ describe('status api', () => {
 
 describe('POST Results API', () => {
   it('returns 200 when the query is correctly formatted', async () => {
-    const r = await fetch(`${API_URL}/results/my-job-id`, {
+    const r = await fetch(`${API_URL}/results`, {
       method: 'POST',
       headers: {}
     })
@@ -52,7 +52,7 @@ describe('POST Results API', () => {
     const formData = loadZip('./__tests__/e2e/fixtures/test-reports-1.zip')
 
     const r = await new Promise<IncomingMessage>((resolve, reject) => {
-      formData.submit(`${API_URL}/results/my-job-id`, (err, res) =>
+      formData.submit(`${API_URL}/results`, (err, res) =>
         err ? reject(err) : resolve(res)
       )
     })
