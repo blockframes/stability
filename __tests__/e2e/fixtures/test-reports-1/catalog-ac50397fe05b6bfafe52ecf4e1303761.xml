@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="12.995" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2020-03-30T09:15:45" tests="0" file="src/integration/dashboard/movie-tunnel-13.spec.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="User can navigate to the movie tunnel page 13, complete the field, and navigate to page 14" timestamp="2020-03-30T09:15:45" tests="1" failures="0" time="12.995">
+    <testcase name="User can navigate to the movie tunnel page 13, complete the field, and navigate to page 14 Login into an existing account, navigate on valuation page, complete the field, go on movie tunnel page 14" time="12.995" classname="Login into an existing account, navigate on valuation page, complete the field, go on movie tunnel page 14">
+    </testcase>
+  </testsuite>
+</testsuites>

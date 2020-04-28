@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0" tests="3" failures="0" skipped="3">
+  <testsuite name="Root Suite" timestamp="2020-03-30T09:20:33" tests="0" file="src/integration/marketplace/create-wishlist.spec.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Test wishlist icon from library page" timestamp="2020-03-30T09:20:33" tests="1" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Test wishlist icon from movie view page" timestamp="2020-03-30T09:20:33" tests="1" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Test wishlist removal icon from everywhere" timestamp="2020-03-30T09:20:33" tests="1" failures="0" time="0">
+  </testsuite>
+</testsuites>

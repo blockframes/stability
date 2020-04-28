@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="27.474000000000004" tests="11" failures="0">
+  <testsuite name="Root Suite" timestamp="2020-03-30T09:18:57" tests="0" file="src/integration/landing/account-creation.spec.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="User can create new account" timestamp="2020-03-30T09:18:57" tests="1" failures="0" time="5.049">
+    <testcase name="User can create new account Fill all the fields appropriately" time="5.049" classname="Fill all the fields appropriately">
+    </testcase>
+  </testsuite>
+  <testsuite name="Try with each fields except one" timestamp="2020-03-30T09:19:02" tests="5" failures="0" time="10.254">
+    <testcase name="Try with each fields except one Fill all the fields except email" time="1.934" classname="Fill all the fields except email">
+    </testcase>
+    <testcase name="Try with each fields except one Fill all the fields except name" time="2.081" classname="Fill all the fields except name">
+    </testcase>
+    <testcase name="Try with each fields except one Fill all the fields except surname" time="2.146" classname="Fill all the fields except surname">
+    </testcase>
+    <testcase name="Try with each fields except one Fill all the fields except password" time="2.044" classname="Fill all the fields except password">
+    </testcase>
+    <testcase name="Try with each fields except one Fill all the fields except password confirm" time="2.049" classname="Fill all the fields except password confirm">
+    </testcase>
+  </testsuite>
+  <testsuite name="Try email address" timestamp="2020-03-30T09:19:12" tests="2" failures="0" time="4.477">
+    <testcase name="Try email address use already exist email address" time="2.29" classname="use already exist email address">
+    </testcase>
+    <testcase name="Try email address use wrong format email address" time="2.187" classname="use wrong format email address">
+    </testcase>
+  </testsuite>
+  <testsuite name="Try password" timestamp="2020-03-30T09:19:17" tests="3" failures="0" time="7.694000000000001">
+    <testcase name="Try password Try with different passwords in password confirm" time="2.43" classname="Try with different passwords in password confirm">
+    </testcase>
+    <testcase name="Try password Try with less than 6 characters" time="2.248" classname="Try with less than 6 characters">
+    </testcase>
+    <testcase name="Try password Try with more than 24 characters" time="3.016" classname="Try with more than 24 characters">
+    </testcase>
+  </testsuite>
+</testsuites>

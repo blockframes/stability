@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0" tests="4" failures="4">
+  <testsuite name="Root Suite" timestamp="2020-03-30T09:19:29" tests="0" file="src/integration/landing/organization-creation.spec.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="User can choose to find an organization" timestamp="2020-03-30T09:19:29" tests="1" failures="1" time="0">
+    <testcase name="User can choose to find an organization Create a user, then click on &quot;Find your Organization&quot;" time="0" classname="Create a user, then click on &quot;Find your Organization&quot;">
+      <failure message="Timed out retrying: Expected to find element: &apos;organization-home&apos;, but never found it." type="CypressError"><![CDATA[CypressError: Timed out retrying: Expected to find element: 'organization-home', but never found it.
+    at cypressErr (http://localhost:4200/__cypress/runner/cypress_runner.js:138036:9)
+    at throwErr (http://localhost:4200/__cypress/runner/cypress_runner.js:137969:11)
+    at Object.throwErrByPath (http://localhost:4200/__cypress/runner/cypress_runner.js:138017:3)
+    at retry (http://localhost:4200/__cypress/runner/cypress_runner.js:132299:19)
+    at onFailFn (http://localhost:4200/__cypress/runner/cypress_runner.js:120514:16)
+    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:164895:23)
+    at Promise._settlePromiseFromHandler (http://localhost:4200/__cypress/runner/cypress_runner.js:162831:31)
+    at Promise._settlePromise (http://localhost:4200/__cypress/runner/cypress_runner.js:162888:18)
+    at Promise._settlePromise0 (http://localhost:4200/__cypress/runner/cypress_runner.js:162933:10)
+    at Promise._settlePromises (http://localhost:4200/__cypress/runner/cypress_runner.js:163008:18)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueue (http://localhost:4200/__cypress/runner/cypress_runner.js:159620:16)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159630:10)
+    at Async.drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159504:14)]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Try with all fields except name" timestamp="2020-03-30T09:19:45" tests="1" failures="1" time="0">
+    <testcase name="Try with all fields except name Fill all the fields except company name" time="0" classname="Fill all the fields except company name">
+      <failure message="Timed out retrying: Expected to find element: &apos;organization-home&apos;, but never found it." type="CypressError"><![CDATA[CypressError: Timed out retrying: Expected to find element: 'organization-home', but never found it.
+    at cypressErr (http://localhost:4200/__cypress/runner/cypress_runner.js:138036:9)
+    at throwErr (http://localhost:4200/__cypress/runner/cypress_runner.js:137969:11)
+    at Object.throwErrByPath (http://localhost:4200/__cypress/runner/cypress_runner.js:138017:3)
+    at retry (http://localhost:4200/__cypress/runner/cypress_runner.js:132299:19)
+    at onFailFn (http://localhost:4200/__cypress/runner/cypress_runner.js:120514:16)
+    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:164895:23)
+    at Promise._settlePromiseFromHandler (http://localhost:4200/__cypress/runner/cypress_runner.js:162831:31)
+    at Promise._settlePromise (http://localhost:4200/__cypress/runner/cypress_runner.js:162888:18)
+    at Promise._settlePromise0 (http://localhost:4200/__cypress/runner/cypress_runner.js:162933:10)
+    at Promise._settlePromises (http://localhost:4200/__cypress/runner/cypress_runner.js:163008:18)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueue (http://localhost:4200/__cypress/runner/cypress_runner.js:159620:16)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159630:10)
+    at Async.drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159504:14)]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Create an organization with minimum field" timestamp="2020-03-30T09:19:57" tests="1" failures="1" time="0">
+    <testcase name="Create an organization with minimum field Fill only the company name field" time="0" classname="Fill only the company name field">
+      <failure message="Timed out retrying: Expected to find element: &apos;organization-home&apos;, but never found it." type="CypressError"><![CDATA[CypressError: Timed out retrying: Expected to find element: 'organization-home', but never found it.
+    at cypressErr (http://localhost:4200/__cypress/runner/cypress_runner.js:138036:9)
+    at throwErr (http://localhost:4200/__cypress/runner/cypress_runner.js:137969:11)
+    at Object.throwErrByPath (http://localhost:4200/__cypress/runner/cypress_runner.js:138017:3)
+    at retry (http://localhost:4200/__cypress/runner/cypress_runner.js:132299:19)
+    at onFailFn (http://localhost:4200/__cypress/runner/cypress_runner.js:120514:16)
+    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:164895:23)
+    at Promise._settlePromiseFromHandler (http://localhost:4200/__cypress/runner/cypress_runner.js:162831:31)
+    at Promise._settlePromise (http://localhost:4200/__cypress/runner/cypress_runner.js:162888:18)
+    at Promise._settlePromise0 (http://localhost:4200/__cypress/runner/cypress_runner.js:162933:10)
+    at Promise._settlePromises (http://localhost:4200/__cypress/runner/cypress_runner.js:163008:18)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueue (http://localhost:4200/__cypress/runner/cypress_runner.js:159620:16)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159630:10)
+    at Async.drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159504:14)]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Create an organization with all fields" timestamp="2020-03-30T09:20:10" tests="1" failures="1" time="0">
+    <testcase name="Create an organization with all fields Fill all the fields" time="0" classname="Fill all the fields">
+      <failure message="Timed out retrying: Expected to find element: &apos;organization-home&apos;, but never found it." type="CypressError"><![CDATA[CypressError: Timed out retrying: Expected to find element: 'organization-home', but never found it.
+    at cypressErr (http://localhost:4200/__cypress/runner/cypress_runner.js:138036:9)
+    at throwErr (http://localhost:4200/__cypress/runner/cypress_runner.js:137969:11)
+    at Object.throwErrByPath (http://localhost:4200/__cypress/runner/cypress_runner.js:138017:3)
+    at retry (http://localhost:4200/__cypress/runner/cypress_runner.js:132299:19)
+    at onFailFn (http://localhost:4200/__cypress/runner/cypress_runner.js:120514:16)
+    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:164895:23)
+    at Promise._settlePromiseFromHandler (http://localhost:4200/__cypress/runner/cypress_runner.js:162831:31)
+    at Promise._settlePromise (http://localhost:4200/__cypress/runner/cypress_runner.js:162888:18)
+    at Promise._settlePromise0 (http://localhost:4200/__cypress/runner/cypress_runner.js:162933:10)
+    at Promise._settlePromises (http://localhost:4200/__cypress/runner/cypress_runner.js:163008:18)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueue (http://localhost:4200/__cypress/runner/cypress_runner.js:159620:16)
+    at Async../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159630:10)
+    at Async.drainQueues (http://localhost:4200/__cypress/runner/cypress_runner.js:159504:14)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

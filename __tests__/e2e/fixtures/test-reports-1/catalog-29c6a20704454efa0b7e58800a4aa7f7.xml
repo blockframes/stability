@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0" tests="1" failures="0" skipped="1">
+  <testsuite name="Root Suite" timestamp="2020-03-30T09:20:29" tests="0" file="src/integration/marketplace/create-distribution-rights.spec.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="test select movie from catalog" timestamp="2020-03-30T09:20:29" tests="1" failures="0" time="0">
+  </testsuite>
+</testsuites>
