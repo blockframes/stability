@@ -22,9 +22,10 @@ zip test-results.zip ./*.xml
 # CIRCLE_PULL_REQUEST
 # CIRCLE_USERNAME
 
-curl -X POST -F file=./test-results.zip "$DASHBOARD_API_URL" \
+curl -X POST -F file=./test-results.zip "${DASHBOARD_API_URL}" \
   --header "Branch:${CIRCLE_BRANCH}" \
   --header "BuildID:${CIRCLE_BUILD_NUM}" \
   --header "BuildURL:${CIRCLE_BUILD_URL}" \
   --header "PR:${CIRCLE_PULL_REQUEST}" \
   --header "User:${CIRCLE_USERNAME}" \
+  --header "X-Secret:${DASHBOARD_API_KEY}"

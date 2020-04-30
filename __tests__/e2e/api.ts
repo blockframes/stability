@@ -82,7 +82,7 @@ describe('POST Results API', () => {
           host: API_HOST,
           port: API_PORT,
           path: '/api/results',
-          headers: { 'X-Secret': SECRET }
+          headers: { 'X-Secret': 'WRONG_SECRET' }
         },
         (err: Error | null, res) => (err ? reject(err) : resolve(res))
       )
