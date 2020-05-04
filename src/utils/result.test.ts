@@ -1,4 +1,7 @@
 import { parseXML } from './result'
+import fs from 'fs'
+import { join } from 'path'
+import { parse } from 'querystring'
 
 const ENTRY_1 = {
   name: 'catalog-1b8de0132eb2f1a2eb1ad711d8e3f480.xml',
@@ -41,11 +44,23 @@ const ENTRY_2 = {
   </testsuites>`
 }
 
+const ENTRY_3 = {
+  name: 'catalog-8dd27d9a23eb30b11acac3989ac6e5c2.xml',
+  content: `<?xml version="1.0" encoding="UTF-8"?>
+  <testsuites name="Mocha Tests" time="0" tests="1" failures="0" skipped="1">
+    <testsuite name="Root Suite" timestamp="2020-03-30T09:20:38" tests="0" file="src/integration/marketplace/send-an-offer.spec.ts" failures="0" time="0">
+    </testsuite>
+    <testsuite name="Test submit wishlist to sellers" timestamp="2020-03-30T09:20:38" tests="1" failures="0" time="0">
+    </testsuite>
+  </testsuites>`
+}
+
 describe('Parse an array of xml to ITestResultGroup', () => {
   it('Return an empty array', async () => {
     const r = await parseXML([])
     expect(r).toEqual({
-      jobId: '',
+      metadata: {},
+      buildID: '',
       apps: {}
     })
   })
@@ -57,7 +72,8 @@ describe('Parse an array of xml to ITestResultGroup', () => {
       'User can navigate to the movie tunnel page 5, complete the fields, and navigate to page 6'
     )
     expect(r).toEqual({
-      jobId: '',
+      metadata: {},
+      buildID: '',
       apps: {
         catalog: [
           {
@@ -86,7 +102,8 @@ describe('Parse an array of xml to ITestResultGroup', () => {
     const r = await parseXML([ENTRY_2])
 
     expect(r).toEqual({
-      jobId: '',
+      metadata: {},
+      buildID: '',
       apps: {
         catalog: [
           {
@@ -117,7 +134,8 @@ describe('Parse an array of xml to ITestResultGroup', () => {
     const r = await parseXML([ENTRY_1, ENTRY_2])
 
     expect(r).toEqual({
-      jobId: '',
+      metadata: {},
+      buildID: '',
       apps: {
         catalog: [
           {
@@ -159,5 +177,29 @@ describe('Parse an array of xml to ITestResultGroup', () => {
         ]
       }
     })
+  })
+
+  it('Failing case: ENTRY_3', async () => {
+    const r = await parseXML([ENTRY_3])
+    expect(r.apps.catalog).toBeTruthy()
+  })
+
+  it('works with all files', async () => {
+    const TEST_REPORTS_1 = join(
+      process.cwd(),
+      '__tests__',
+      'e2e',
+      'fixtures',
+      'test-reports-1'
+    )
+    const files = fs.readdirSync(TEST_REPORTS_1)
+
+    const entries = files.map((name) => ({
+      name,
+      content: fs.readFileSync(join(TEST_REPORTS_1, name)).toString('utf-8')
+    }))
+    const parsed = await parseXML(entries)
+
+    expect(parsed).toBeTruthy()
   })
 })

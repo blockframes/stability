@@ -3,6 +3,8 @@ import { createReadStream } from 'fs'
 import { flatten } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
 import unzipper from 'unzipper'
+import { parseXML } from '@utils/result'
+import { loadDB } from '@utils/db'
 
 const SECRET = process.env.SECRET
 // test cmd:
@@ -18,14 +20,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return
     }
     case 'POST': {
-      console.log(req.headers)
-
-      const buildID = req.headers['buildid']
-      const branch = req.headers['branch']
-      const buildURL = req.headers['buildurl']
-      const PRID = req.headers['pr']
-      const userID = req.headers['user']
-      const secret = req.headers['x-secret']
+      // TODO: validate data instead of hardcasting
+      const buildID = req.headers['buildid'] as string
+      const branch = req.headers['branch'] as string
+      const buildURL = req.headers['buildurl'] as string
+      const PRID = req.headers['pr'] as string
+      const userID = req.headers['user'] as string
+      const secret = req.headers['x-secret'] as string
 
       if (!buildID) {
         return res.status(400).json({ error: 'no BuildID header' })
@@ -36,6 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const form = new IncomingForm()
+      const db = await loadDB()
 
       // TODO: promisify all these callbacks and go fully async
       return form.parse(req, async (err: any, fields: any, files: Files) => {
@@ -46,11 +48,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           return
         }
 
+        console.error('FILES=', files, Object.entries(files))
+
         const xmlFiles = flatten(
           await Promise.all(
             Object.entries(files).map(async ([fileName, file]) => {
-              console.info(fileName)
-
               // TODO: if not zip, throw
               const zip = createReadStream(file.path).pipe(
                 unzipper.Parse({ forceStream: true })
@@ -62,7 +64,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const name = entry.path
                 const buffer = await entry.buffer()
                 const content = buffer.toString('utf-8')
-                console.info(name, 'content=', content)
                 // TODO: parse XML
                 // TODO: if not XML show warning + skip with entry.autodrain();
                 entries.push({ name, content })
@@ -73,7 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           )
         )
 
-        const xmlFilesCount = xmlFiles.length
+        const parsedEntries = await parseXML(xmlFiles)
 
         const metadata = {
           branch,
@@ -81,6 +82,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           PRID,
           userID
         }
+
+        db.add({ ...parsedEntries, buildID, metadata })
+
+        const xmlFilesCount = xmlFiles.length
 
         res.status(201)
         return res.json({ success: true, xmlFilesCount, buildID, metadata })

@@ -16,9 +16,9 @@ export const loadDB = async (dbNameSuffix: string = '') => {
   const collection = db.collection('jobResults')
 
   const add = async (job: ITestResultGroup): Promise<void> => {
-    const doc = { ...job, _id: job.jobId }
+    const doc = { ...job, _id: job.buildID }
     await collection.updateOne(
-      { _id: job.jobId },
+      { _id: job.buildID },
       {
         $set: { ...doc, updated: new Date() },
         $setOnInsert: { created: new Date() }

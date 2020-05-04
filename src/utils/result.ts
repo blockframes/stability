@@ -2,8 +2,9 @@ import xml2js from 'xml2js'
 import { get } from 'lodash'
 
 export interface ITestResultGroup {
-  jobId: string
+  buildID: string
   apps: IAppResults
+  metadata: { [key: string]: string }
 }
 
 interface IAppResults {
@@ -32,59 +33,73 @@ export interface IUploadEntry {
   content: string
 }
 
+const parseDescribe = () => {
+  return {}
+}
+
 export async function parseXML(
   entries: IUploadEntry[]
 ): Promise<ITestResultGroup> {
-  const apps: { [appName: string]: ITestResult } = {}
   const results = await Promise.all(
     entries.map(async (entry) => {
-      const parser = new xml2js.Parser({ attrkey: 'attr' })
-      const content = await parser.parseStringPromise(entry.content)
+      try {
+        const parser = new xml2js.Parser({ attrkey: 'attr' })
+        const content = await parser.parseStringPromise(entry.content)
 
-      const suites = content.testsuites.testsuite
-      const rootSuite = suites.filter(
-        (x: any) => x.attr.name === 'Root Suite'
-      )[0]
-      const ourDescribes = suites.filter(
-        (x: any) => x.attr.name !== 'Root Suite'
-      )
+        const suites = content.testsuites.testsuite
 
-      const fileName = rootSuite.attr.file
+        const rootSuite = suites.filter(
+          (x: any) => x.attr.name === 'Root Suite'
+        )[0]
 
-      const testsuite = ourDescribes[0]
+        const ourDescribes = suites.filter(
+          (x: any) => x.attr.name !== 'Root Suite'
+        )
 
-      const steps = testsuite.testcase.map(
-        (test: any): IStep => {
-          const error = get(test, 'failure[0].attr.message', undefined)
+        const fileName = rootSuite.attr.file
 
-          return {
-            success: !error,
-            name: test.attr.classname,
-            duration: parseFloat(test.attr.time),
-            ...(error ? { error } : {})
+        const testsuite = ourDescribes[0]
+
+        const testCases = testsuite.testcase || []
+
+        const steps = testCases.map(
+          (test: any): IStep => {
+            const error = get(test, 'failure[0].attr.message', undefined)
+
+            return {
+              success: !error,
+              name: test.attr.classname,
+              duration: parseFloat(test.attr.time),
+              ...(error ? { error } : {})
+            }
           }
+        )
+        const appName = entry.name.split('-')[0]
+
+        const testResult: ITestResult = {
+          file: fileName,
+          testName: testsuite.attr.name,
+          date: testsuite.attr.timestamp,
+          succeeded:
+            parseFloat(testsuite.attr.tests) -
+            parseFloat(testsuite.attr.failures),
+          failed: parseFloat(testsuite.attr.failures),
+          duration: parseFloat(testsuite.attr.time),
+          steps
         }
-      )
-      const appName = entry.name.split('-')[0]
 
-      const testResult: ITestResult = {
-        file: fileName,
-        testName: testsuite.attr.name,
-        date: testsuite.attr.timestamp,
-        succeeded:
-          parseFloat(testsuite.attr.tests) -
-          parseFloat(testsuite.attr.failures),
-        failed: parseFloat(testsuite.attr.failures),
-        duration: parseFloat(testsuite.attr.time),
-        steps
+        return { appName, testResult }
+      } catch (error) {
+        console.error('processing:', entry.name, 'failed with error:', error)
+        throw error
       }
-
-      return { appName, testResult }
     })
   )
 
   return {
-    jobId: '',
+    // TODO: dumb type, split
+    buildID: '',
+    metadata: {},
     apps: results.reduce(
       (previous: IAppResults, { appName, testResult }): IAppResults => {
         return {
