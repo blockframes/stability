@@ -53,29 +53,31 @@ describe('Parse an array of xml to ITestResultGroup', () => {
   it('Return an ITestResultGroup', async () => {
     const r = await parseXML([ENTRY_1])
     expect(r.apps.catalog).toBeTruthy()
-    expect(r.apps.catalog.testName).toEqual(
+    expect(r.apps.catalog[0].testName).toEqual(
       'User can navigate to the movie tunnel page 5, complete the fields, and navigate to page 6'
     )
     expect(r).toEqual({
       jobId: '',
       apps: {
-        catalog: {
-          testName:
-            'User can navigate to the movie tunnel page 5, complete the fields, and navigate to page 6',
-          date: '2020-03-30T09:17:06',
-          succeeded: 1,
-          failed: 0,
-          file: 'src/integration/dashboard/movie-tunnel-4.spec.ts',
-          steps: [
-            {
-              success: true,
-              name:
-                'Login into an existing account, navigate on budget page, complete budget and quotas fields, go on movie tunnel page 6',
-              duration: 24.86
-            }
-          ],
-          duration: 24.86
-        }
+        catalog: [
+          {
+            testName:
+              'User can navigate to the movie tunnel page 5, complete the fields, and navigate to page 6',
+            date: '2020-03-30T09:17:06',
+            succeeded: 1,
+            failed: 0,
+            file: 'src/integration/dashboard/movie-tunnel-4.spec.ts',
+            steps: [
+              {
+                success: true,
+                name:
+                  'Login into an existing account, navigate on budget page, complete budget and quotas fields, go on movie tunnel page 6',
+                duration: 24.86
+              }
+            ],
+            duration: 24.86
+          }
+        ]
       }
     })
   })
@@ -86,25 +88,75 @@ describe('Parse an array of xml to ITestResultGroup', () => {
     expect(r).toEqual({
       jobId: '',
       apps: {
-        catalog: {
-          testName:
-            'User can navigate to the movie tunnel, complete required fields, and send the movie',
-          date: '2020-03-30T09:18:22',
-          succeeded: 0,
-          failed: 1,
-          file: 'src/integration/dashboard/movie-tunnel-end.spec.ts',
-          steps: [
-            {
-              success: false,
-              name:
-                'Login into an existing account, navigate on movie tunnel, complete required fields, go on titles page, navigate to movie page',
-              duration: 0,
-              error:
-                "Timed out retrying: Expected to find element: 'catalog-title-view catalog-title-details', but never found it."
-            }
-          ],
-          duration: 0
-        }
+        catalog: [
+          {
+            testName:
+              'User can navigate to the movie tunnel, complete required fields, and send the movie',
+            date: '2020-03-30T09:18:22',
+            succeeded: 0,
+            failed: 1,
+            file: 'src/integration/dashboard/movie-tunnel-end.spec.ts',
+            steps: [
+              {
+                success: false,
+                name:
+                  'Login into an existing account, navigate on movie tunnel, complete required fields, go on titles page, navigate to movie page',
+                duration: 0,
+                error:
+                  "Timed out retrying: Expected to find element: 'catalog-title-view catalog-title-details', but never found it."
+              }
+            ],
+            duration: 0
+          }
+        ]
+      }
+    })
+  })
+
+  it('Return an ITestResultGroup with 2 entries', async () => {
+    const r = await parseXML([ENTRY_1, ENTRY_2])
+
+    expect(r).toEqual({
+      jobId: '',
+      apps: {
+        catalog: [
+          {
+            testName:
+              'User can navigate to the movie tunnel page 5, complete the fields, and navigate to page 6',
+            date: '2020-03-30T09:17:06',
+            succeeded: 1,
+            failed: 0,
+            file: 'src/integration/dashboard/movie-tunnel-4.spec.ts',
+            steps: [
+              {
+                success: true,
+                name:
+                  'Login into an existing account, navigate on budget page, complete budget and quotas fields, go on movie tunnel page 6',
+                duration: 24.86
+              }
+            ],
+            duration: 24.86
+          },
+          {
+            testName:
+              'User can navigate to the movie tunnel, complete required fields, and send the movie',
+            date: '2020-03-30T09:18:22',
+            succeeded: 0,
+            failed: 1,
+            file: 'src/integration/dashboard/movie-tunnel-end.spec.ts',
+            steps: [
+              {
+                success: false,
+                name:
+                  'Login into an existing account, navigate on movie tunnel, complete required fields, go on titles page, navigate to movie page',
+                duration: 0,
+                error:
+                  "Timed out retrying: Expected to find element: 'catalog-title-view catalog-title-details', but never found it."
+              }
+            ],
+            duration: 0
+          }
+        ]
       }
     })
   })
