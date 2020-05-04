@@ -6,14 +6,9 @@ services:
     depends_on:
       - db
     ports:
-      - 127.0.0.1:19002:3000
+      - 127.0.0.1:19001:3000
   db:
-    image: postgres:12.2
-    restart: always
-  adminer:
-    image: adminer
+    image: mongo:4.2
     restart: always
     ports:
-      - 127.0.0.1:19082:8080
-    depends_on:
-      - db
+      - 127.0.0.1:27017:27017
