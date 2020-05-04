@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { ITestResultGroup } from './result'
+import { ITestResultGroup, ITestResult } from './result'
 require('dotenv').config()
 
 const MONGO_URL = process.env.MONGO_URL
@@ -32,5 +32,14 @@ export const loadDB = async (dbNameSuffix: string = '') => {
     return doc
   }
 
-  return { db, client, add, get, collection }
+  const list = async (): Promise<ITestResult[]> => {
+    const items = await collection
+      .find()
+      .sort({ created: -1 })
+      .limit(100)
+      .toArray()
+    return (items as unknown) as ITestResult[]
+  }
+
+  return { db, client, add, get, list, collection }
 }
