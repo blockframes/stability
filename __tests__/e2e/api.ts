@@ -5,7 +5,7 @@ import fetch from 'isomorphic-unfetch'
 
 const API_HOST = 'localhost'
 const API_PORT = 3000
-const SECRET = 'helloworld'
+const SECRET = 'some secret key'
 const u = (path: string) => `http://${API_HOST}:${API_PORT}/api${path}`
 
 // const dbg = (f: any): any => {
@@ -46,7 +46,7 @@ describe('POST Results API', () => {
   it('returns 200 when the query is correctly formatted', async () => {
     const r = await fetch(u('/results'), {
       method: 'POST',
-      headers: {}
+      headers: { 'X-Secret': SECRET, BuildID: 'SomeBuildID' }
     })
     expect(r.status).toEqual(201)
   })
@@ -60,7 +60,7 @@ describe('POST Results API', () => {
           host: API_HOST,
           port: API_PORT,
           path: '/api/results',
-          headers: { 'X-Secret': SECRET }
+          headers: { 'X-Secret': SECRET, BuildID: 'SomeBuildID' }
         },
         (err: Error | null, res) => (err ? reject(err) : resolve(res))
       )
@@ -82,7 +82,7 @@ describe('POST Results API', () => {
           host: API_HOST,
           port: API_PORT,
           path: '/api/results',
-          headers: { 'X-Secret': 'WRONG_SECRET' }
+          headers: { 'X-Secret': 'WRONG SECRET', BuildID: 'SomeBuildID' }
         },
         (err: Error | null, res) => (err ? reject(err) : resolve(res))
       )

@@ -6,6 +6,7 @@ import unzipper from 'unzipper'
 import { createReadStream } from 'fs'
 import { flatten } from 'lodash'
 
+const SECRET = process.env.SECRET
 // test cmd:
 // http -f POST localhost:3000/results/test-jobID file@./__tests__/e2e/fixtures/test-reports-1.zip
 
@@ -20,6 +21,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case 'POST': {
       console.log(req.headers)
+
+      const buildID = req.headers['buildid']
+      const secret = req.headers['x-secret']
+
+      if (!buildID) {
+        return res.status(400).json({ error: 'no BuildID header' })
+      }
+      console.info('secret', secret, SECRET)
+      if (secret !== SECRET) {
+        return res.status(403).json({ error: 'wrong secret' })
+      }
 
       const form = new IncomingForm()
 
@@ -62,7 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const xmlFilesCount = xmlFiles.length
 
         res.status(201)
-        return res.json({ success: true, xmlFilesCount })
+        return res.json({ success: true, xmlFilesCount, buildID })
       })
     }
   }
