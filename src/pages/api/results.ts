@@ -15,9 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case 'GET': {
-      res.status(404)
-      res.end('TODO: use different status code')
-      return
+      return res.status(400).json({ error: 'invalid verb' })
     }
     case 'POST': {
       // TODO: validate data instead of hardcasting
@@ -42,13 +40,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       // TODO: promisify all these callbacks and go fully async
       return form.parse(req, async (err: any, fields: any, files: Files) => {
         if (err) {
-          res.status(500)
-          res.end('failed')
           console.error(err)
-          return
+          return res.status(500).end('failed')
         }
-
-        console.error('FILES=', files, Object.entries(files))
 
         const xmlFiles = flatten(
           await Promise.all(
@@ -83,12 +77,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           userID
         }
 
-        db.add({ ...parsedEntries, buildID, metadata })
+        await db.add({ ...parsedEntries, buildID, metadata })
 
         const xmlFilesCount = xmlFiles.length
 
-        res.status(201)
-        return res.json({ success: true, xmlFilesCount, buildID, metadata })
+        return res
+          .status(201)
+          .json({ success: true, xmlFilesCount, buildID, metadata })
       })
     }
   }
