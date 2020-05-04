@@ -1,10 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { withCORS } from '@utils/api'
-import FormData from 'form-data'
-import { IncomingForm, Files } from 'formidable'
-import unzipper from 'unzipper'
+import { Files, IncomingForm } from 'formidable'
 import { createReadStream } from 'fs'
 import { flatten } from 'lodash'
+import { NextApiRequest, NextApiResponse } from 'next'
+import unzipper from 'unzipper'
 
 const SECRET = process.env.SECRET
 // test cmd:
@@ -23,12 +21,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       console.log(req.headers)
 
       const buildID = req.headers['buildid']
+      const branch = req.headers['branch']
+      const buildURL = req.headers['buildurl']
+      const PRID = req.headers['pr']
+      const userID = req.headers['user']
       const secret = req.headers['x-secret']
 
       if (!buildID) {
         return res.status(400).json({ error: 'no BuildID header' })
       }
-      console.info('secret', secret, SECRET)
+
       if (secret !== SECRET) {
         return res.status(403).json({ error: 'wrong secret' })
       }
@@ -73,8 +75,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const xmlFilesCount = xmlFiles.length
 
+        const metadata = {
+          branch,
+          buildURL,
+          PRID,
+          userID
+        }
+
         res.status(201)
-        return res.json({ success: true, xmlFilesCount, buildID })
+        return res.json({ success: true, xmlFilesCount, buildID, metadata })
       })
     }
   }
