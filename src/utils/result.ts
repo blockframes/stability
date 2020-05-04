@@ -103,7 +103,7 @@ export async function parseXML(
   )
 
   return {
-    // TODO: dumb type, split
+    // TODO: fix dumb type, split
     buildID: '',
     metadata: {},
     apps: results.reduce(
