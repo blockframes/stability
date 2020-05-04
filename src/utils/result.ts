@@ -84,13 +84,17 @@ export async function parseXML(
         const appName = entry.name.split('-')[0]
 
         // The other suites are our test, let's extract their data.
-        const ourDescribes = suites.filter(
+        const ourDescribes: any[] = suites.filter(
           (x: any) => x.attr.name !== 'Root Suite'
         )
+        const testResults = ourDescribes.map((testsuite) =>
+          parseDescribe(fileName, testsuite)
+        )
 
-        const testsuite = ourDescribes[0]
-        const testResult = parseDescribe(fileName, testsuite)
-        return { appName, testResult }
+        return {
+          appName,
+          testResults
+        }
       } catch (error) {
         console.error('processing:', entry.name, 'failed with error:', error)
         throw error
@@ -103,10 +107,10 @@ export async function parseXML(
     buildID: '',
     metadata: {},
     apps: results.reduce(
-      (previous: IAppResults, { appName, testResult }): IAppResults => {
+      (previous: IAppResults, { appName, testResults }): IAppResults => {
         return {
           ...previous,
-          [appName]: [...(previous[appName] || []), testResult]
+          [appName]: [...(previous[appName] || []), ...testResults]
         }
       },
       {}
