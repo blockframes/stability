@@ -107,6 +107,12 @@ const Home: React.FC<IProps> = ({ result }) => {
     [setFocused]
   )
 
+  const [showPass, setShowPass] = useState(true)
+
+  const toggleShowPass = useCallback(() => setShowPass((x) => !x), [
+    setShowPass
+  ])
+
   return (
     <div>
       <Header />
@@ -121,13 +127,42 @@ const Home: React.FC<IProps> = ({ result }) => {
             ))}
           </ul>
         </div>
+
+        <div className='card filters'>
+          <div className='card-body'>
+            <div className='form-check'>
+              <input
+                className='form-check-input'
+                type='checkbox'
+                value={showPass ? 'on' : ''}
+                id='showPassCheck'
+                onChange={toggleShowPass}
+              />
+              <label className='form-check-label' htmlFor='showPassCheck'>
+                Show Passing
+              </label>
+            </div>
+          </div>
+        </div>
         {Object.entries(result.apps).map((app) => {
           const [name, content] = app
-          const tests = reverse(sortBy(content, 'failed'))
+          let tests = reverse(sortBy(content, 'failed'))
+
+          if (!showPass) {
+            tests = tests.filter((x) => !x.succeeded)
+          }
+
+          const success = content.filter((x) => x.succeeded).length
+          const fail = content.length
 
           return (
             <div key={name} className='app'>
-              <h2>App: {name}</h2>
+              <h2>
+                App: {name}{' '}
+                <small className='text-muted'>
+                  ({success}/{fail})
+                </small>
+              </h2>
               <div className='tests'>
                 {tests.map((test, i) => (
                   <Test
