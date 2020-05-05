@@ -1,13 +1,12 @@
 import React from 'react'
+import Link from 'next/link'
 
 const Header = () => {
   return (
-    <nav className='navbar' role='navigation' aria-label='main navigation'>
-      <div className='navbar-brand'>
-        <a className='navbar-item' href='/'>
-          <img src='/logo.png' width='30' height='30' alt='Logo' />
-        </a>
-      </div>
+    <nav className='navbar navbar-dark bg-primary'>
+      <Link href='/'>
+        <a className='navbar-brand'>e2e.blockframes.io</a>
+      </Link>
     </nav>
   )
 }

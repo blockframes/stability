@@ -15,12 +15,16 @@ const Home: React.FC<IProps> = ({ results }) => {
   return (
     <div>
       <Header />
-      <main>
-        {results.map((result) => (
-          <Link href={`/result/${result.buildID}`}>
-            <a>{result.buildID}</a>
-          </Link>
-        ))}
+      <main className='container'>
+        <ul className='list-group'>
+          {results.map((result) => (
+            <li className='list-group-item'>
+              <Link href={`/result/${result.buildID}`}>
+                <a>{result.buildID}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </main>
       <Footer />
     </div>
