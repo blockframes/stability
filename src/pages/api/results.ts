@@ -139,7 +139,7 @@ Build ${buildID} ${status}!
 
 ${detailStats}
 
-Check the build details on the <${DASHBOARD_API_URL}/${buildID}|dashboard>`
+Check the build details on the <${DASHBOARD_API_URL}/result/${buildID}|dashboard>`
   })
 }
 

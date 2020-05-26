@@ -134,7 +134,7 @@ const Home: React.FC<IProps> = ({ result }) => {
               <input
                 className='form-check-input'
                 type='checkbox'
-                value={showPass ? 'on' : ''}
+                checked={showPass}
                 id='showPassCheck'
                 onChange={toggleShowPass}
               />
@@ -149,7 +149,7 @@ const Home: React.FC<IProps> = ({ result }) => {
           let tests = reverse(sortBy(content, 'failed'))
 
           if (!showPass) {
-            tests = tests.filter((x) => !x.succeeded)
+            tests = tests.filter((x) => x.failed > 0)
           }
 
           const success = content.filter((x) => x.succeeded).length
